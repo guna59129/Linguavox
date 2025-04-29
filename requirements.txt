@@ -4,10 +4,11 @@ python-dotenv
 pyttsx3
 langchain
 PyPDF2
-docx
-pptx
+python-docx
+python-pptx
 Pillow
 pytesseract
 requests
 beautifulsoup4
+lxml
 readability-lxml
