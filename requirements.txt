@@ -13,3 +13,5 @@ beautifulsoup4
 lxml
 readability-lxml
 langchain-community
+lxml
+lxml_html_clean
