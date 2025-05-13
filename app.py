@@ -74,26 +74,24 @@ def find_answer_in_text(text, question):
             return answer
     return "The answer is not present in the document."
 
-def generate_audio(text, speed=150, output_folder="temp_audio"):
+from gtts import gTTS
+
+def generate_audio(text, output_folder="temp_audio"):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-    
-    engine = pyttsx3.init()
-    engine.setProperty('rate', speed)
-    engine.setProperty('volume', 1.0)
-    
-    filename = os.path.join(output_folder, "generated_audio.wav")
-    
-    try:
-        engine.save_to_file(text, filename)
-        engine.runAndWait()
 
+    filename = os.path.join(output_folder, "generated_audio.mp3")
+
+    try:
+        tts = gTTS(text=text, lang='en')
+        tts.save(filename)
         if os.path.exists(filename):
             return filename
         else:
             return None
     except Exception as e:
         return None
+
 
 st.set_page_config(page_title="LINGUAVOX", layout="wide")
 
