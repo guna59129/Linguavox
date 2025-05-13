@@ -12,3 +12,4 @@ requests
 beautifulsoup4
 lxml
 readability-lxml
+langchain-community
