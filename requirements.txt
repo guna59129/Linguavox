@@ -1,0 +1,14 @@
+openai
+streamlit
+python-dotenv
+pyttsx3
+langchain
+PyPDF2
+python-docx
+python-pptx
+Pillow
+pytesseract
+requests
+beautifulsoup4
+lxml
+readability-lxml
