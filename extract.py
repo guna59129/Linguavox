@@ -8,6 +8,8 @@ import requests
 from bs4 import BeautifulSoup
 from readability import Document as ReadabilityDocument
 import io
+import os
+from dotenv import load_dotenv
 
 # --- PDF Text Extraction ---
 def extract_text_from_pdf(uploaded_file):
@@ -99,24 +101,54 @@ def extract_text_from_pptx(uploaded_file):
     return full_text
 
 # --- Image Text Extraction ---
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
 def extract_text_from_image(uploaded_file):
-    image = Image.open(uploaded_file)
-    extracted_text = pytesseract.image_to_string(image)
+    api_key = os.getenv("OCR_API_KEY")  
+    
+    if not api_key:
+        return "Error: OCR API key is missing."
 
+    url = 'https://api.ocr.space/parse/image'
+    
+    try:
+        image = Image.open(uploaded_file)
+    except Exception as e:
+        return f"Error: Unable to open image file. {str(e)}"
+    
+    img_byte_arr = io.BytesIO()
+    image.save(img_byte_arr, format='PNG')  # Convert to PNG format
+    img_byte_arr = img_byte_arr.getvalue()  # Get the byte data
+
+    try:
+        response = requests.post(
+            url,
+            files={'filename': ('image.png', img_byte_arr, 'image/png')},
+            data={'apikey': api_key, 'language': 'eng'}
+        )
+    except requests.RequestException as e:
+        return f"Error: Request to OCR API failed. {str(e)}"
+    
+    try:
+        result = response.json()
+    except ValueError:
+        return f"Error: Response from OCR.Space is not in valid JSON format. Response: {response.text}"
+
+    if result.get("IsErroredOnProcessing"):
+        return f"OCR failed: {result.get('ErrorMessage', ['Unknown error'])[0]}"
+    
+    extracted_text = result["ParsedResults"][0]["ParsedText"]
+    
     unwanted_patterns = [
-        r'.*indd.*',
-        r'^\s+$'
+        r'.*indd.*',   
+        r'^\s+$'       
     ]
-
+    
     full_text = ""
     for line in extracted_text.split('\n'):
         if any(re.match(pattern, line.strip()) for pattern in unwanted_patterns):
             continue
-        if line.strip():
+        if line.strip():  
             full_text += line.strip() + "\n"
-
+    
     return full_text
 
 # --- URL Article Extraction ---
