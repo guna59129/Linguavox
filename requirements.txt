@@ -14,3 +14,4 @@ lxml
 readability-lxml
 langchain-community
 gtts
+pypdf
