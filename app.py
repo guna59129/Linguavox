@@ -208,7 +208,7 @@ else:
             text_to_speak = st.session_state["latest_answer"]
 
         if text_to_speak:
-            audio_file_path = generate_audio(text_to_speak, speed=150)
+            audio_file_path = generate_audio(text_to_speak)
 
             if audio_file_path:
                 st.success("✅ Audio generated!")
