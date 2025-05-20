@@ -15,3 +15,7 @@ readability-lxml
 langchain-community
 gtts
 pypdf
+googletrans
+textwrap
+asyncio
+inspect
