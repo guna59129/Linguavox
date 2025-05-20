@@ -1,5 +1,5 @@
-streamlit==1.26.0
-openai==0.27.0
+openai
+streamlit
 python-dotenv
 pyttsx3
 langchain
@@ -7,11 +7,11 @@ PyPDF2
 python-docx
 python-pptx
 Pillow
+pytesseract
 requests
 beautifulsoup4
 lxml
 readability-lxml
 langchain-community
 gtts
-googletrans==4.0.0-rc1
-textwrap3
+pypdf
