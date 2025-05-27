@@ -38,4 +38,4 @@ def translate_text(text, dest_lang='te'):
             translated_chunks.append(f"[Error translating chunk {i+1}]")
     return " ".join(translated_chunks)
 
-print(translate_text("Hello, how are you?", dest_lang='fr'))
+
